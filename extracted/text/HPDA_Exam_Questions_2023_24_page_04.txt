@@ -1,0 +1,59 @@
+2.
+(a) Briefly explain both k-nearest neighbors (k-NN) and k-means, and state
+the key difference between them.
+[3 marks]
+(b) In k-NN, Feature Scaling is important to ensure the model is not
+dominated by features with larger values. Explain how Normalization and
+Standardization each affect feature values. Justify which one is more
+suited for a feature known to have outliers.
+[4 marks]
+(c) A test for a new bacterial infection has been created and evaluated on a
+population of 1,000 people, of which 2.5% are known to have the virus
+and the rest do not. The test has been determined to be successful on
+91% of people who are infected, and correctly dismisses 89% of people
+who do not have the condition.
+Using Bayes’ Law, calculate the probability that a positive test result on
+someone from this population means they are infected.
+[4 marks]
+(d) A board game caf´e wishes to determine which types of new game to buy
+based on how popular its existing games are. They have collected data
+from customers who have played their existing games:
+Puzzle
+Strategy
+Card
+Cooperative
+Competitive
+Y
+34
+76
+65
+47
+75
+N
+23
+12
+56
+157
+23
+In this table, row Y means the game is popular, and row N means it is not.
+There are two features; Genre (Puzzle, Strategy, or Card), and Player
+Type (Cooperative or Competitive).
+Apply Bayes’ model to this data to justify whether the caf´e should stock a
+new Competitive Strategy game.
+[7 marks]
+(e) A larger caf´e chain plans to apply the same method to determine which
+games to stock. Consider the following two factors separately. For
+each, state how the original model will be affected and suggest which
+modification could be made.
+i. They stock a much larger selection of game types.
+[2 marks]
+ii. They wish to include price as a feature.
+[2 marks]
+(f) Bootstrap aggregation (bagging) is a popular ensemble algorithm for
+machine learning.
+i. Explain what bootstrap sampling is.
+[1 mark]
+ii. State how results are aggregated for both classification and
+regression tasks.
+[2 marks]
+Page 3 of 4

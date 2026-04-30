@@ -1,0 +1,42 @@
+1. You frequently use a popular audio streaming service and would like to learn
+more about your listening habits. You have downloaded a dataset about
+the songs you have listened to in the past twelve months. Example data
+are shown on the following page. Assume that the data presented is fully
+representative of the dataset as a whole.
+(a) Data cleaning and data tidying is the process of manipulating datasets
+to be consistent, and structured in a way to facilitate manipulation,
+visualization and modeling.
+i. Describe the steps that could be taken to make the streaming dataset
+consistent.
+[3 marks]
+ii. State the three main principles of tidy data.
+[3 marks]
+iii. Which common data untidiness issue can be seen in the streaming
+dataset?
+Suggest an approach to fix the issue in this dataset.
+[3 marks]
+(b) Let X be the random variable indicating whether a song was skipped,
+where X = 1 indicates that it was skipped, and X = 0 indicates that it
+was not skipped.
+i. What would be an appropriate distribution model for X and why?
+State the parameters of the distribution and explain what they
+illustrate.
+[3 marks]
+ii. Derive the formula for the variance of this distribution.
+[3 marks]
+(c) Let n be the number of times the song Motion Sickness by Phoebe
+Bridgers was played in December 2022. Assume that Xi is a random
+variable indicating whether the song was skipped when played for the
+i-th time as described in 1a). Then Y = Pn
+i=1 Xi is the random variable
+describing the number of times the song was skipped.
+i. What would be an appropriate distribution model for Y and why?
+State the probability mass function.
+[3 marks]
+ii. What method would you use to estimate the most likely values for the
+parameters of the chosen distribution model?
+State the formula for the estimate and explain the different
+components.
+Describe and explain what steps you would follow to obtain it.
+[7 marks]
+Page 1 of 4

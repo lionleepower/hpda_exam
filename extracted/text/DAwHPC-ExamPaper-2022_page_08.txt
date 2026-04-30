@@ -1,0 +1,23 @@
+gradient descent iterations but diﬀerent learning rates α1, α2, α3 respec-
+tively. Describe and compare the plots in order to describe and explain
+the eﬀect of the learning rate. Which plot corresponds to the largest
+and which to the smallest learning rate and why?
+[5 marks]
+(d) Which from the below statements are correct?
+i. In order to estimate the generalisation error of a model from the training
+error we need to:
+A. First get an estimate of the testing error from the training error
+B. Construct a conﬁdence interval for the training error
+C. Can’t be done
+D. Construct a conﬁdence interval for the generalisation error
+ii. Suppose we randomly select M testing instances and calculate an error
+rate R then:
+A. I would anticipate the error rate in another set of M instances to
+also be R.
+B. R is the best estimate I have for the error rate for any set of ran-
+domly selected instances.
+C. R is the best estimate I have for the error rate for any randomly
+selected set of size M but it doesn’t tell me anything for testing sets
+of other sizes.
+[2 marks]
+Page 7 of 7

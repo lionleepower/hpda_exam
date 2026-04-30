@@ -1,0 +1,7 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+organise the data and to produce a scatter plot of observed data showing
+the ﬁtted linear model as an overlay?
+ii. How would you predict sales ﬁgures for each department of the Edin-
+burgh store for December 2023?
+[4 marks]
+Page 6 of 6

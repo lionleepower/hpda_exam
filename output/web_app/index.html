@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HPDA Final Exam Study App</title>
+  <style>
+    :root {
+      --bg: #f6f2e8;
+      --panel: #fffaf1;
+      --panel-strong: #fffdf8;
+      --ink: #1f1b16;
+      --muted: #6f6558;
+      --line: #ddd2c2;
+      --accent: #0e7490;
+      --done: #2f855a;
+      --review: #b83280;
+      --shadow: 0 16px 40px rgba(48, 37, 24, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(14,116,144,0.12), transparent 28%),
+        linear-gradient(180deg, #f3ede1 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 24px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+    .sidebar {
+      padding: 22px;
+      position: sticky;
+      top: 20px;
+      align-self: start;
+    }
+    .content {
+      padding: 22px;
+      background: var(--panel-strong);
+    }
+    h1 { margin: 0 0 10px; font-size: 2rem; line-height: 1.1; }
+    h2, h3 { margin: 0 0 12px; }
+    .lede { margin: 0 0 20px; color: var(--muted); line-height: 1.5; }
+    .grid { display: grid; gap: 14px; }
+    .field label { display: block; margin-bottom: 6px; font-size: 0.95rem; font-weight: 700; }
+    select, input, textarea, button { font: inherit; }
+    select, input[type="number"], textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: white;
+      color: var(--ink);
+    }
+    textarea { min-height: 120px; resize: vertical; line-height: 1.45; }
+    .checkboxes { display: grid; gap: 8px; }
+    .checkboxes label { display: flex; gap: 10px; align-items: center; font-weight: 500; margin: 0; }
+    .buttons, .footer-actions, .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      background: #ece2d2;
+      color: var(--ink);
+    }
+    button.primary { background: var(--accent); color: white; }
+    button.review { background: #f7d1ea; color: #7c2157; }
+    button.done { background: #d7f3df; color: #1f6a41; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+    }
+    .stat .value { display: block; font-size: 1.5rem; font-weight: 700; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .pill.priority-high { background: #ffe4cf; color: #8a3b12; }
+    .pill.priority-medium { background: #ede7d5; color: #685e51; }
+    .pill.priority-low { background: #e6efe7; color: #3a6842; }
+    .pill.status-new { background: #e6f2f5; color: #0f5f73; }
+    .pill.status-review { background: #f8d8eb; color: #89245b; }
+    .pill.status-done { background: #daf4df; color: #266643; }
+    .question-text, .summary-box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: white;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .summary-box { background: #fff7ea; }
+    .visual-warning {
+      border: 1px solid #efc48b;
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #fff1db;
+      color: #8a4b10;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .topic-notes {
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .image-wrap {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: white;
+    }
+    .image-wrap img { width: 100%; height: auto; border-radius: 12px; display: block; background: #f4efe7; }
+    .meta { margin-top: 12px; color: var(--muted); line-height: 1.5; }
+    .topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+    .empty {
+      padding: 28px;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      color: var(--muted);
+      background: white;
+    }
+    .muted { color: var(--muted); }
+    #save-feedback { min-height: 24px; margin-top: 10px; color: var(--muted); }
+    .hidden { display: none; }
+    @media (max-width: 980px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="panel sidebar">
+      <h1>HPDA Study App</h1>
+      <p class="lede" id="mode-lede"></p>
+      <div class="grid">
+        <div class="field">
+          <label for="topic-filter">Topic</label>
+          <select id="topic-filter"></select>
+        </div>
+        <div class="field">
+          <label for="year-filter">Year</label>
+          <select id="year-filter"></select>
+        </div>
+        <div class="field">
+          <label for="status-filter">Status</label>
+          <select id="status-filter">
+            <option value="all">All</option>
+            <option value="new">New</option>
+            <option value="review">Review</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="priority-filter">Priority</label>
+          <select id="priority-filter">
+            <option value="all">All</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="question-limit">Session Size</label>
+          <input id="question-limit" type="number" min="0" value="0">
+        </div>
+        <div class="checkboxes">
+          <label><input id="shuffle-filter" type="checkbox" checked> Shuffle session</label>
+          <label><input id="show-image-toggle" type="checkbox" checked> Show image inline</label>
+        </div>
+        <div class="buttons">
+          <button id="start-session" class="primary">Start Session</button>
+          <button id="random-question">Random Question</button>
+        </div>
+        <div id="local-actions" class="footer-actions">
+          <button id="export-progress">Export Browser Progress</button>
+          <button id="import-progress">Import Browser Progress</button>
+          <button id="reset-progress">Reset Browser Progress</button>
+          <input id="import-file" type="file" accept="application/json" hidden>
+        </div>
+      </div>
+    </aside>
+    <main class="panel content">
+      <div class="topbar">
+        <div>
+          <h2 id="session-title">No session loaded</h2>
+          <p id="session-subtitle" class="muted">Pick filters on the left and start a session.</p>
+        </div>
+        <div class="nav-buttons">
+          <button id="prev-question">Previous</button>
+          <button id="next-question">Next</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="value" id="stat-total">0</span><span>Questions In Session</span></div>
+        <div class="stat"><span class="value" id="stat-review">0</span><span>Marked Review</span></div>
+        <div class="stat"><span class="value" id="stat-done">0</span><span>Marked Done</span></div>
+      </div>
+      <div id="question-container" class="empty">No question loaded yet.</div>
+      <div id="save-feedback"></div>
+    </main>
+  </div>
+
+  <script>
+    const SERVER_MODE = false;
+    const QUESTIONS = [{"stable_id": "t01_2023_q1a", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "数据清洗的必要性、operational data", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(a)", "question_summary": "解释为什么医院 operational data 在分析前必须清洗，并说明可用资源", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(a) The dataset is an example of Operational data which has not been gathered\nfor a speciﬁc analysis. Explain why it is vital to clean this data before it is\nmade available for analysis, and state two resources you could use to assist\nwith the cleaning.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t01_2023_q1c", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "数据清洗 workflow 设计", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(c)", "question_summary": "针对医院 CSV 数据制定完整 cleaning plan", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(c) Create a plan for cleaning the dataset above, providing speciﬁc examples of\ntasks at each step in the Data Cleaning workﬂow. You should assume that\nHPC is not required for this task.\n[12 marks]", "answer_notes": ""}, {"stable_id": "t01_2023_q1d", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "验证清洗后数据中的统计假设", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(d)", "question_summary": "用 cleaned data 验证不同 admission type 的 length of stay 差异", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(d) Brieﬂy describe how you could verify the following statement using the\ncleaned data: “For each hospital, the average length of stay per year should\nbe much higher for transfers than any other admission type”.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t01_2024_q1aii", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "tidy data 三原则", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(a)(ii)", "question_summary": "直接问 tidy data 的三条原则", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "ii. State the three main principles of tidy data.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t01_2024_q1ai", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "streaming dataset 数据一致性清洗", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(a)(i)", "question_summary": "针对音乐播放数据说明如何使数据 consistent", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "i. Describe the steps that could be taken to make the streaming dataset\nconsistent.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t01_2024_q1aiii", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "common untidiness issue", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(a)(iii)", "question_summary": "识别数据表中的 untidy 问题并提出修复方法", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "iii. Which common data untidiness issue can be seen in the streaming\ndataset?\nSuggest an approach to fix the issue in this dataset.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t01_2022_q2ai", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "raw data / DICOM metadata cleaning", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(a)(i)", "question_summary": "找出 DICOM 表格中 technically incorrect 的 raw data 并说明清洗步骤", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "i. DICOM can be viewed as a raw data format. Provide two examples\nof raw data from the tables above that are not technically correct. For\neach, identify a cleaning step which could be applied to that data.\n[4 marks]", "answer_notes": ""}, {"stable_id": "t01_2022_q2aii", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "数据一致性类型", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(a)(ii)", "question_summary": "说明 DICOM metadata 中违反了哪些 consistency", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "ii. What types of data consistency are violated, and how?\n[4 marks]", "answer_notes": ""}, {"stable_id": "t01_2022_q1a", "topic_id": "1", "topic_group": "1. 数据清洗、数据整理、ETL/ELT、数据一致性", "knowledge_point": "ETL vs ELT", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(a)", "question_summary": "三个场景判断 ETL 或 ELT，并给出理由", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:45", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_02.png", "original_question_text": "(a) In the three scenarios given below consider whether ETL or ELT would be\nmost appropriate and justify your answer:\ni. A team within your company wants to detect anomalous insurance\nclaims.\nii. An organisation wishes to keep a long-term data archive for analysis.\niii. A secure data source houses highly sensitive data, including individuals’\npersonal information\n[3 marks]", "answer_notes": ".213132"}, {"stable_id": "t02_2023_q1b", "topic_id": "2", "topic_group": "2. 数据编码、特征缩放、数据探索", "knowledge_point": "categorical variable encoding", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(b)", "question_summary": "将 admission type 转换为 numerical model 可用形式，典型是 one-hot encoding", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(b) Name the technique which could be applied to convert a categorical variable\nfor use by numerical models, and show how it would be applied to the\nfollowing data sample.\n[2 marks]\nRow\nadmission type\n1\nEmergency\n2\nEmergency\n3\nTransfer", "answer_notes": ""}, {"stable_id": "t02_2024_q2b", "topic_id": "2", "topic_group": "2. 数据编码、特征缩放、数据探索", "knowledge_point": "normalization vs standardization", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(b)", "question_summary": "解释两种 scaling，并判断有 outliers 时更适合哪种", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "(b) In k-NN, Feature Scaling is important to ensure the model is not\ndominated by features with larger values. Explain how Normalization and\nStandardization each affect feature values. Justify which one is more\nsuited for a feature known to have outliers.\n[4 marks]", "answer_notes": ""}, {"stable_id": "t02_2022_q1b", "topic_id": "2", "topic_group": "2. 数据编码、特征缩放、数据探索", "knowledge_point": "feature scaling 对 k-means 的影响", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(b)", "question_summary": "比较原始 units、standard deviation scaling、money spent 对 k-means 的影响", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_02.png", "original_question_text": "(b) Consider an online merchant only providing two products: lamps and mo-\ntorbikes. The plots below illustrate the purchases of eight diﬀerent shoppers\nwhere each shopper is depicted by a speciﬁc colour and symbol. Plot (a)\nillustrates the number of lamps and motorbikes purchased by each shopper.\nPlot (b) illustrates the same information but after scaling each variable by\nits standard deviation. Lastly, plot (c) shows the amount of money spent\nby each shopper on lamps and motorbikes.\n0\n2\n4\n6\n8\n10\n12\na\nUnits Purchased\nLamps\nMotorbikes\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\n1.2\n1.4\nb\nUnits Purchased (scaled)\nLamps\nMotorbikes\n0\n500\n1000\n1500\n2000\n2500\nc\nMoney Spent\nLamps\nMotorbikes\nConsider you’re implementing k−means clustering, with k = 2, in each of\nthe three cases above. Brieﬂy, explain in general, how the scale/units of\nmeasurement of the features could aﬀect k-means clustering. Speciﬁcally\nfor the above example, describe in words the results you expect to get in\neach case and explain why.\n[8 marks]", "answer_notes": ""}, {"stable_id": "t02_2022_q1cii", "topic_id": "2", "topic_group": "2. 数据编码、特征缩放、数据探索", "knowledge_point": "exploratory plots", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(c)(ii)", "question_summary": "为材料科学数据选择探索性图表，并解释每个变量的作用", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_02.png", "original_question_text": "(c) A materials science research group requires your help to analyse some data\nfrom simulations of a new material. A small sample of their data is shown\nbelow and consist of the following three variables: “Type”, indicating the\ncategory of an observation; “Distance” which is measured in their material\nand “Shift”, a further property of the material.\ni. The chemists in the group are interested in ﬁnding a way to decide\non the “Type” of a new observation using the above data. How can\nyou do that?\nMention what approach/method you’d choose, which\nvariable/variables would be used and how.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t02_2022_q1ciii", "topic_id": "2", "topic_group": "2. 数据编码、特征缩放、数据探索", "knowledge_point": "removing data points / outlier handling", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(c)(iii)", "question_summary": "讨论删除数据点对模型性能的影响", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_03.png", "original_question_text": "iii. The chemists looked into the performance of the model on the training\ndata and found that it wasn’t performing so well. However, they re-\nalised, that the performance improved after removing some data points.\nDiscuss this approach. Explain how this could aﬀect the performance\nof the new model.\n[3 marks]\n(d) A K-NN classiﬁer has been trained to a dataset with two features, X1, X2,\nand one target variable with three classes. The plots below show scatterplots\nof the features for the training data. The true class of each data point, A, B\nand C, is denoted by triangle, circle and square markers respectively. The\ndashed and straight lines show the classiﬁcation boundaries of the classiﬁer\nwhen trained with K = 1, K = 30 and K = 110. These boundaries indicate\nhow new data points will be classiﬁed as indicated by the lower-case labels\na, b and c. For example, data points falling within the red area a will be\nclassiﬁed as a. Consider that there are 50 examples of each label in the\ntraining data.\n4\n5\n6\n7\n8\nX2\n1\n2\n3\n4\n5\n6\nX1\na\nb\nc\nKNN (K=1)\n4\n5\n6\n7\n8\nX2\na\nb\nc\nKNN (K=30)\n4\n5\n6\n7\n8\nX2\na\nc\nKNN (K=110)\nA\nB\nC\na/b Boundary\nb/c Boundary\nPredict a\nPredict b\nPredict c", "answer_notes": ""}, {"stable_id": "t03_2024_q1bi", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "Bernoulli distribution", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(b)(i)", "question_summary": "skipped/not skipped 二元变量建模", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "i. What would be an appropriate distribution model for X and why?\nState the parameters of the distribution and explain what they\nillustrate.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t03_2024_q1bii", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "Bernoulli variance derivation", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(b)(ii)", "question_summary": "推导 Bernoulli 方差", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "ii. Derive the formula for the variance of this distribution.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t03_2024_q1ci", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "Binomial distribution", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(c)(i)", "question_summary": "n 次播放中被 skipped 的次数建模", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "i. What would be an appropriate distribution model for Y and why?\nState the probability mass function.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t03_2024_q1cii", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "MLE 参数估计", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q1(c)(ii)", "question_summary": "说明如何估计 distribution 参数，写公式并解释步骤", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "2", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_02.png", "original_question_text": "ii. What method would you use to estimate the most likely values for the\nparameters of the chosen distribution model?\nState the formula for the estimate and explain the different\ncomponents.\nDescribe and explain what steps you would follow to obtain it.\n[7 marks]", "answer_notes": ""}, {"stable_id": "t03_2023_q2di", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "Bernoulli response modelling", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(d)(i)", "question_summary": "customer positive response 的二元分布建模", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "i. They plan to organise a dancing event on the last Thursday of May.\nUse a Naive Bayes classiﬁer to answer whether it is going to be sold out\nor not. Show all your working using appropriate notation.", "answer_notes": ""}, {"stable_id": "t03_2022_q3a", "topic_id": "3", "topic_group": "3. 概率分布、参数估计、MLE", "knowledge_point": "常见分布选择", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(a)", "question_summary": "对 functioning devices、property value、daily complaints 选择合适分布", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "(a) In each of the below examples consider what could be an appropriate dis-\ntribution for modelling the random variable X. Brieﬂy justify your answer\nhighlighting the key reasons.\ni. X: The total number of functioning devices out of boxes of 50 devices\nii. X: The value, in thousand pounds, of two bedroom properties in Edin-\nburgh.\niii. X: The daily number of complaints at the call centre of your energy\nprovider.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t04_2024_q2c", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Bayes’ Law 计算 posterior probability", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(c)", "question_summary": "用感染率、sensitivity、specificity 计算阳性后真实感染概率", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "(c) A test for a new bacterial infection has been created and evaluated on a\npopulation of 1,000 people, of which 2.5% are known to have the virus\nand the rest do not. The test has been determined to be successful on\n91% of people who are infected, and correctly dismisses 89% of people\nwho do not have the condition.\nUsing Bayes’ Law, calculate the probability that a positive test result on\nsomeone from this population means they are infected.\n[4 marks]", "answer_notes": ""}, {"stable_id": "t04_2024_q2d", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes 分类", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(d)", "question_summary": "判断 cafe 是否应买 Competitive Strategy game", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "(d) A board game caf´e wishes to determine which types of new game to buy\nbased on how popular its existing games are. They have collected data\nfrom customers who have played their existing games:\nPuzzle\nStrategy\nCard\nCooperative\nCompetitive\nY\n34\n76\n65\n47\n75\nN\n23\n12\n56\n157\n23\nIn this table, row Y means the game is popular, and row N means it is not.\nThere are two features; Genre (Puzzle, Strategy, or Card), and Player\nType (Cooperative or Competitive).\nApply Bayes’ model to this data to justify whether the caf´e should stock a\nnew Competitive Strategy game.\n[7 marks]", "answer_notes": ""}, {"stable_id": "t04_2024_q2eiii", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes 新类别/特征扩展问题", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(e)(i)(ii)", "question_summary": "游戏类型变多、加入 price feature 后模型如何修改", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "i. They stock a much larger selection of game types.\n[2 marks]\nii. They wish to include price as a feature.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t04_2023_q2ci", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes 分类", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(c)(i)", "question_summary": "判断 dancing event on weekday 是否 sold out", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "i. They plan to organise a dancing event on the last Thursday of May.\nUse a Naive Bayes classiﬁer to answer whether it is going to be sold out\nor not. Show all your working using appropriate notation.", "answer_notes": ""}, {"stable_id": "t04_2023_q2cii", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes 未见类别问题", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(c)(ii)", "question_summary": "poetry writing event 是否可用已有 classifier 判断", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "ii. They consider organising a poetry writing event during June’s ﬁrst\nweekend and they want to know if it’s going to be sold out. Can you\nanswer this using the provided data and/or the trained classiﬁer? If\nyes, show and explain how but without making the actual calculation.\nIf not, explain why and suggest how you could approach it.", "answer_notes": ""}, {"stable_id": "t04_2022_q3bi", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes 分类", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(b)(i)", "question_summary": "判断 music event on weekday 是否 sold out", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "i. They plan to organise a music event on the last Thursday of May. Use\na Naive Bayes classiﬁer to answer whether it is going to be sold-out or\nnot. Show all your working using adequate notation.\n[8 marks]", "answer_notes": ""}, {"stable_id": "t04_2022_q3bii", "topic_id": "4", "topic_group": "4. Bayes、Naive Bayes、Bayes’ Law", "knowledge_point": "Naive Bayes unseen category / smoothing", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(b)(ii)", "question_summary": "drawing lesson 是未见类别，讨论如何处理", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "ii. For the ﬁrst time, they consider organising a drawing lesson during\nJune’s ﬁrst weekend and they want to know if it’s going to be sold out.\nA. Can you answer this using the provided data and/or the trained\nclassiﬁer? If yes, show and explain how but without making the ac-\ntual calculation. If not, explain why and suggest how you could ap-\nproach it. In either case, mention anything that you would like/need\nto communicate with them based on your approach.\n[5 marks]", "answer_notes": ""}, {"stable_id": "t05_2024_q2a", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "k-NN vs k-means 区别", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(a)", "question_summary": "解释两个算法并说明关键差别", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "(a) Briefly explain both k-nearest neighbors (k-NN) and k-means, and state\nthe key difference between them.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t05_2022_q1b", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "k-means 与 feature scaling", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(b)", "question_summary": "分析不同 scale/units 对聚类结果的影响", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_02.png", "original_question_text": "(b) Consider an online merchant only providing two products: lamps and mo-\ntorbikes. The plots below illustrate the purchases of eight diﬀerent shoppers\nwhere each shopper is depicted by a speciﬁc colour and symbol. Plot (a)\nillustrates the number of lamps and motorbikes purchased by each shopper.\nPlot (b) illustrates the same information but after scaling each variable by\nits standard deviation. Lastly, plot (c) shows the amount of money spent\nby each shopper on lamps and motorbikes.\n0\n2\n4\n6\n8\n10\n12\na\nUnits Purchased\nLamps\nMotorbikes\n0.0\n0.2\n0.4\n0.6\n0.8\n1.0\n1.2\n1.4\nb\nUnits Purchased (scaled)\nLamps\nMotorbikes\n0\n500\n1000\n1500\n2000\n2500\nc\nMoney Spent\nLamps\nMotorbikes\nConsider you’re implementing k−means clustering, with k = 2, in each of\nthe three cases above. Brieﬂy, explain in general, how the scale/units of\nmeasurement of the features could aﬀect k-means clustering. Speciﬁcally\nfor the above example, describe in words the results you expect to get in\neach case and explain why.\n[8 marks]", "answer_notes": ""}, {"stable_id": "t05_2022_q1ci", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "k-NN 分类任务设计", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(c)(i)", "question_summary": "用 Distance 和 Shift 判断 Type", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_02.png", "original_question_text": "i. The chemists in the group are interested in ﬁnding a way to decide\non the “Type” of a new observation using the above data. How can\nyou do that?\nMention what approach/method you’d choose, which\nvariable/variables would be used and how.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t05_2022_q1di", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "k-NN 中 K 的影响", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(d)(i)", "question_summary": "讨论 K=1、K=30、K=110 对 decision boundary 的影响", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_03.png", "original_question_text": "i. Considering how K-NN works, and with reference to the above plots\nif helpful, discuss how K aﬀects the classiﬁcation and the classiﬁcation", "answer_notes": ""}, {"stable_id": "t05_2022_q1dii", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "k-NN accuracy 解释", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q1(d)(ii)", "question_summary": "根据 K=110 图解释 67% accuracy", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_03.png", "original_question_text": "(d) A K-NN classiﬁer has been trained to a dataset with two features, X1, X2,\nand one target variable with three classes. The plots below show scatterplots\nof the features for the training data. The true class of each data point, A, B\nand C, is denoted by triangle, circle and square markers respectively. The\ndashed and straight lines show the classiﬁcation boundaries of the classiﬁer\nwhen trained with K = 1, K = 30 and K = 110. These boundaries indicate\nhow new data points will be classiﬁed as indicated by the lower-case labels\na, b and c. For example, data points falling within the red area a will be\nclassiﬁed as a. Consider that there are 50 examples of each label in the\ntraining data.\n4\n5\n6\n7\n8\nX2\n1\n2\n3\n4\n5\n6\nX1\na\nb\nc\nKNN (K=1)\n4\n5\n6\n7\n8\nX2\na\nb\nc\nKNN (K=30)\n4\n5\n6\n7\n8\nX2\na\nc\nKNN (K=110)\nA\nB\nC\na/b Boundary\nb/c Boundary\nPredict a\nPredict b\nPredict c\ni. Considering how K-NN works, and with reference to the above plots\nif helpful, discuss how K aﬀects the classiﬁcation and the classiﬁcation", "answer_notes": ""}, {"stable_id": "t05_2023_q2a", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "clustering 方法识别", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(a)", "question_summary": "从图判断 k-means、Gaussian Mixtures、DBSCAN", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "(a) The plots given below show the results of diﬀerent clustering methods used\non 3 diﬀerent datasets. Looking at these, which of k-means, Gaussian Mix-\ntures and DBSCAN is most likely to have produced each clustering output?\nJustify your answer based on the properties and underlying assumptions of\neach method.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t05_2023_q2b", "topic_id": "5", "topic_group": "5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类", "knowledge_point": "DBSCAN core/reachable/outlier 判断", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(b)", "question_summary": "根据 epsilon 和 minPts 判断点类型", "topic_priority": "high", "review_status": "new", "practice_count": "1", "last_practiced": "2026-04-30 12:47", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "(b) Let x be a datapoint with x1, ..., x9 denoting its closest neighbours, with\ntheir Euclidean distances from x listed below. Explain how DBSCAN would\nclassify x, i.e., core point, density reachable or outlier, if parametrised with\nϵ = 0.12 and minPts = 3, and brieﬂy justify why.\nD(x, x1)\n=\n0.4, D(x, x2) = 0.08, D(x, x3) = 0.15, D(x, x4) = 0.2,\nD(x, x5)\n=\n0.3, D(x, x6) = 0.22, D(x, x7) = 0.06, D(x, x8) = 0.11, D(x, x9) = 0.1\n[2 marks]", "answer_notes": ""}, {"stable_id": "t06_2023_q1e", "topic_id": "6", "topic_group": "6. Random Forest、Bagging、Bootstrap、OOB Error", "knowledge_point": "bootstrap aggregation 和 OOB error", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(e)", "question_summary": "在 Random Forest context 中解释 bagging 和 OOB error", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(e) A researcher wishes to train a Random Forest classiﬁer using the cleaned\ndata to predict future admission rates. Explain what the terms “bootstrap\naggregation” and “out of bag (OOB) error” mean in this context.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t06_2023_q1f", "topic_id": "6", "topic_group": "6. Random Forest、Bagging、Bootstrap、OOB Error", "knowledge_point": "optimal number of trees experiment", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q1(f)", "question_summary": "设计实验找 Random Forest 的最佳 tree 数", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "2", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_02.png", "original_question_text": "(f) Describe an experiment you could perform to determine the optimal number\nof trees to include in a Random Forest classiﬁer.\n[4 marks]", "answer_notes": ""}, {"stable_id": "t06_2024_q2fi", "topic_id": "6", "topic_group": "6. Random Forest、Bagging、Bootstrap、OOB Error", "knowledge_point": "bagging 基本概念", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(f)(i)", "question_summary": "解释 bootstrap sampling", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "i. Explain what bootstrap sampling is.\n[1 mark]", "answer_notes": ""}, {"stable_id": "t06_2024_q2fii", "topic_id": "6", "topic_group": "6. Random Forest、Bagging、Bootstrap、OOB Error", "knowledge_point": "classification/regression aggregation", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q2(f)(ii)", "question_summary": "分类用 majority vote，回归用 average", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "4", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_04.png", "original_question_text": "ii. State how results are aggregated for both classification and\nregression tasks.\n[2 marks]", "answer_notes": ""}, {"stable_id": "t07_2023_q2dii", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "logistic regression hypothesis", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(d)(ii)", "question_summary": "定义 logistic regression 模型并说明如何预测 positive response", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "3", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_03.png", "original_question_text": "ii. They consider organising a poetry writing event during June’s ﬁrst\nweekend and they want to know if it’s going to be sold out. Can you\nanswer this using the provided data and/or the trained classiﬁer? If\nyes, show and explain how but without making the actual calculation.\nIf not, explain why and suggest how you could approach it.", "answer_notes": ""}, {"stable_id": "t07_2023_q2diii", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "logistic vs linear regression", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q2(d)(iii)", "question_summary": "判断 linear regression 是否适合二分类", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "1", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_01.png", "original_question_text": "2. DIFFERENT SUB-QUESTIONS MAY HAVE DIFFERENT NUM-\nBERS. Take note of this in allocating time to questions.", "answer_notes": ""}, {"stable_id": "t07_2023_q3eii", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "multiple linear regression prediction", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(e)(ii)", "question_summary": "预测 Edinburgh store 各 department 的 December 2023 sales", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "ii. What method should be used to combine time-based data and how\nshould it be aggregated?\n[5 marks]\n(b) To handle the large amount of data, you need to make full use of a HPC\nmachine and use either Spark (using PySpark) or Dask.", "answer_notes": ""}, {"stable_id": "t07_2023_q3ei", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "fitted linear model visualization", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(e)(i)", "question_summary": "重组数据并画 observed data + fitted model", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "i. What columns are required, how should the table be indexed and what\ndata types should be used?", "answer_notes": ""}, {"stable_id": "t07_2022_q3ci", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "learning rate", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(c)(i)", "question_summary": "解释 gradient descent 中 learning rate α", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "i. In this context, what is the learning rate α?\n[2 marks]", "answer_notes": ""}, {"stable_id": "t07_2022_q3cii", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "learning rate 曲线判断", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(c)(ii)", "question_summary": "根据 cost function 曲线判断 α 太大/太小/合适", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "ii. Below you are given three plots of a cost function J(θ) against the num-\nber iterations performed by the gradient descent algorithm. Each plot,\nconcerns the same data, training model, same total number number of", "answer_notes": ""}, {"stable_id": "t07_2022_q3d", "topic_id": "7", "topic_group": "7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error", "knowledge_point": "generalisation error / testing error", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q3(d)", "question_summary": "判断关于 generalisation error 和 error rate 的选择题", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "7", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_07.png", "original_question_text": "3.\n(a) In each of the below examples consider what could be an appropriate dis-\ntribution for modelling the random variable X. Brieﬂy justify your answer\nhighlighting the key reasons.\ni. X: The total number of functioning devices out of boxes of 50 devices\nii. X: The value, in thousand pounds, of two bedroom properties in Edin-\nburgh.\niii. X: The daily number of complaints at the call centre of your energy\nprovider.\n[3 marks]\n(b) A big popular theatre in Edinburgh has asked your help to understand how\nsuccessful are the events they organise. More speciﬁcally, they want to know\nwhether an event will be sold-out or not. For this, you’re given a csv ﬁle\nwith three variables, namely, Y : showing the status of the event (i.e., if it\nwas sold out or not), X1 : the type of the event (i.e., if it was a theatrical\nevent or a music event) and X2 : whether it took place during the weekend\nor not. After processing the data you bring them together in the below\nformat.\ntheatrical\nmusic\nevent\nevent\nsold-out\n100\n90\nnot sold out\n50\n20\nweek-day\nweekend\nsold out\n80\n110\nnot sold out\n40\n30\ni. They plan to organise a music event on the last Thursday of May. Use\na Naive Bayes classiﬁer to answer whether it is going to be sold-out or\nnot. Show all your working using adequate notation.\n[8 marks]\nii. For the ﬁrst time, they consider organising a drawing lesson during\nJune’s ﬁrst weekend and they want to know if it’s going to be sold out.\nA. Can you answer this using the provided data and/or the trained\nclassiﬁer? If yes, show and explain how but without making the ac-\ntual calculation. If not, explain why and suggest how you could ap-\nproach it. In either case, mention anything that you would like/need\nto communicate with them based on your approach.\n[5 marks]\n(c) In the process of training various supervised models, we’ve talked about\noptimization methods such as gradient descent and stochastic gradient de-\nscent.\ni. In this context, what is the learning rate α?\n[2 marks]\nii. Below you are given three plots of a cost function J(θ) against the num-\nber iterations performed by the gradient descent algorithm. Each plot,\nconcerns the same data, training model, same total number number of", "answer_notes": ""}, {"stable_id": "t08_2022_q2ci", "topic_id": "8", "topic_group": "8. Decision Tree、Confusion Matrix、Classifier Evaluation", "knowledge_point": "decision tree 分类路径", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(c)(i)", "question_summary": "根据 TE、TR、HC 在树中走路径判断 T1/T2", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(c) After initial analysis, the researcher has found Scan Description to be an\nunreliable indicator of the scan type. Three new metadata ﬁelds have been\nchosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time\n(TR), and High Contrast (HC). TE and TR are numeric variables, and HC\nis a boolean variable. The two possible scan types are T1 and T2. Using a\nlabelled subset of the data, the following tree has been built.", "answer_notes": ""}, {"stable_id": "t08_2022_q2cii", "topic_id": "8", "topic_group": "8. Decision Tree、Confusion Matrix、Classifier Evaluation", "knowledge_point": "confusion matrix", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(c)(ii)", "question_summary": "以 T1 为 positive class 构建 confusion matrix", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(c) After initial analysis, the researcher has found Scan Description to be an\nunreliable indicator of the scan type. Three new metadata ﬁelds have been\nchosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time\n(TR), and High Contrast (HC). TE and TR are numeric variables, and HC\nis a boolean variable. The two possible scan types are T1 and T2. Using a\nlabelled subset of the data, the following tree has been built.", "answer_notes": ""}, {"stable_id": "t08_2022_q2cii", "topic_id": "8", "topic_group": "8. Decision Tree、Confusion Matrix、Classifier Evaluation", "knowledge_point": "TPR / TNR", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(c)(ii)", "question_summary": "计算 True Positive Rate 和 True Negative Rate", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(c) After initial analysis, the researcher has found Scan Description to be an\nunreliable indicator of the scan type. Three new metadata ﬁelds have been\nchosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time\n(TR), and High Contrast (HC). TE and TR are numeric variables, and HC\nis a boolean variable. The two possible scan types are T1 and T2. Using a\nlabelled subset of the data, the following tree has been built.", "answer_notes": ""}, {"stable_id": "t08_2022_q2ciii", "topic_id": "8", "topic_group": "8. Decision Tree、Confusion Matrix、Classifier Evaluation", "knowledge_point": "decision tree 中重复使用 boolean feature", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(c)(iii)", "question_summary": "解释为什么 HC 可以在不同分支中重复使用", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(c) After initial analysis, the researcher has found Scan Description to be an\nunreliable indicator of the scan type. Three new metadata ﬁelds have been\nchosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time\n(TR), and High Contrast (HC). TE and TR are numeric variables, and HC\nis a boolean variable. The two possible scan types are T1 and T2. Using a\nlabelled subset of the data, the following tree has been built.", "answer_notes": ""}, {"stable_id": "t08_2022_q2civ", "topic_id": "8", "topic_group": "8. Decision Tree、Confusion Matrix、Classifier Evaluation", "knowledge_point": "binary classifier comparison", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(c)(iv)", "question_summary": "比较两个 binary classifiers 的性能", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(c) After initial analysis, the researcher has found Scan Description to be an\nunreliable indicator of the scan type. Three new metadata ﬁelds have been\nchosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time\n(TR), and High Contrast (HC). TE and TR are numeric variables, and HC\nis a boolean variable. The two possible scan types are T1 and T2. Using a\nlabelled subset of the data, the following tree has been built.", "answer_notes": ""}, {"stable_id": "t09_2022_q2b", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "大规模 DICOM metadata 并行处理", "year": "2022", "exam_time": "13 May 13:00-15:00", "question_number": "Q2(b)", "question_summary": "处理 1 million+ DICOM images，并说明每一步如何使用 parallelism", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2022.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2022_page_05.png", "original_question_text": "(b)\nThe remainder of this question does not relate to the metadata tables in\npart a).\nA researcher wishes to extract and analyse metadata from a dataset of over\n1 million raw DICOM images collected from hospitals across Scotland. They\nare initially interested in analysing the frequency of two types of MRI scan,\nwhich they believe can be found in the Scan Description metadata ﬁelds of\neach ﬁle. Describe the steps you would take to tackle this problem, stating\nhow parallelism can be utilised in each step.\n[8 marks]", "answer_notes": ""}, {"stable_id": "t09_2023_q3bi", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "Spark vs Dask on SLURM", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(b)(i)", "question_summary": "比较 Spark 和 Dask 在 SLURM 上的 setup 和 task execution", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "i. How do Spark and Dask setups diﬀer in terms of the way the SLURM\njob scheduler is used and how are computation tasks executed?", "answer_notes": ""}, {"stable_id": "t09_2023_q3bii", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "spark.read.csv / dask.dataframe.read_csv", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(b)(ii)", "question_summary": "说明读取 CSV paths 后产生什么对象", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "ii. To load the data, Spark and Dask can read in lists of paths to CSV ﬁles.\nDescribe what spark.read.csv() and dask.dataframe.read csv()\ndo and what they produce.\n[6 marks]", "answer_notes": ""}, {"stable_id": "t09_2023_q3ci", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "Spark Pipeline Transformer / Estimator", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(c)(i)", "question_summary": "判断 pipeline stages 是 Transformer 还是 Estimator", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "(c) The Spark Pipeline diagram below represents a process to model the\nString-n-Keys data.", "answer_notes": ""}, {"stable_id": "t09_2023_q3ci", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "narrow vs wide transformation", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(c)(i)", "question_summary": "判断 Spark transformation 类型", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "(c) The Spark Pipeline diagram below represents a process to model the\nString-n-Keys data.", "answer_notes": ""}, {"stable_id": "t09_2023_q3cii", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "PipelineModel", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(c)(ii)", "question_summary": "说明训练后的 PipelineModel 可做什么", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "(c) The Spark Pipeline diagram below represents a process to model the\nString-n-Keys data.", "answer_notes": ""}, {"stable_id": "t09_2023_q3diii", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "Dask delayed task graph", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(d)(i)(ii)", "question_summary": "画 task graph 并计算 result.compute()", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "i. What columns are required, how should the table be indexed and what\ndata types should be used?\nii. What method should be used to combine time-based data and how\nshould it be aggregated?\n[5 marks]\n(b) To handle the large amount of data, you need to make full use of a HPC\nmachine and use either Spark (using PySpark) or Dask.\ni. How do Spark and Dask setups diﬀer in terms of the way the SLURM\njob scheduler is used and how are computation tasks executed?\nii. To load the data, Spark and Dask can read in lists of paths to CSV ﬁles.\nDescribe what spark.read.csv() and dask.dataframe.read csv()\ndo and what they produce.\n[6 marks]\n(c) The Spark Pipeline diagram below represents a process to model the\nString-n-Keys data.", "answer_notes": ""}, {"stable_id": "t09_2023_q3diii", "topic_id": "9", "topic_group": "9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing", "knowledge_point": "Dask partitions / repartition", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(d)(iii)", "question_summary": "说明初始 partitions 和高效 repartition 方法", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "3. You are tasked with analysing sales data for a musical instrument retailer, Strings-\nn-Keys. The retailer has 5 years of sales data, from 10 physical stores and an\nonline store, comprising 600 ﬁles for monthly in-person sales, and 260 ﬁles for\nweekly online sales. Example data are shown below.\nIn-person\nSales,\nshowing\nline\n1\nfrom\n4\nCSV\nﬁles.\ndate\nstore\ndepartment\ntype\nmaker\nmodel\nprice\n01-01-18\nEdinburgh\nGuitars\nGuitar\nFender\nStrat\n999.00\n01-01-18\nGlasgow\nDrums\nDrum kit\nGretsch\nBC50\n1849.00\n01-02-18\nDundee\nGuitars\nGuitar\nGibson\nLP\n1399.00\n01-02-18\nBristol\nKeys\nKeyboard\nNord\nX300\n2199.00\nOnline\nSales,\nshowing\n3\nlines\nfrom\na\nsingle\nCSV\nﬁle.\ndatetime\ndepartment\ntype\nmaker\nmodel\nprice\nshipping\n20-01-2019\nKeys\nKeyboard\nCasio\n88Pro\n1299.00\n30.00\n12:36:21\n20-01-2019\nDrums\nDrum stool\nGnu\nRed15\n149.00\n30.00\n12:42:19\n20-01-2019\nRecording\nInterface\nUA\nVolt1\n114.99\n10.00\n13:01:09\nThe client would like to see monthly sales and yearly sales for each of 10 depart-\nments across all stores and to predict future sales. To complete this work, you\nhave at your disposal a small HPC machine featuring 8 compute nodes, each with\n12 CPU cores and 96 GB RAM, that uses the SLURM job scheduler.\n(a) You begin by designing a single table combining in-person and online sales,\nassuming all stores have the same departments.\ni. What columns are required, how should the table be indexed and what\ndata types should be used?\nii. What method should be used to combine time-based data and how\nshould it be aggregated?\n[5 marks]\n(b) To handle the large amount of data, you need to make full use of a HPC\nmachine and use either Spark (using PySpark) or Dask.\ni. How do Spark and Dask setups diﬀer in terms of the way the SLURM\njob scheduler is used and how are computation tasks executed?\nii. To load the data, Spark and Dask can read in lists of paths to CSV ﬁles.\nDescribe what spark.read.csv() and dask.dataframe.read csv()\ndo and what they produce.\n[6 marks]\n(c) The Spark Pipeline diagram below represents a process to model the\nString-n-Keys data.", "answer_notes": ""}, {"stable_id": "t10_2023_q3ai", "topic_id": "10", "topic_group": "10. Time Series / Sales Data Aggregation / Table Design", "knowledge_point": "设计 combined sales table", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(a)(i)", "question_summary": "合并 physical sales 和 online sales，说明 columns、index、data types", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "i. What columns are required, how should the table be indexed and what\ndata types should be used?", "answer_notes": ""}, {"stable_id": "t10_2023_q3aii", "topic_id": "10", "topic_group": "10. Time Series / Sales Data Aggregation / Table Design", "knowledge_point": "time-based aggregation", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(a)(ii)", "question_summary": "月销售、年销售 aggregation", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "ii. What method should be used to combine time-based data and how\nshould it be aggregated?\n[5 marks]", "answer_notes": ""}, {"stable_id": "t10_2023_q3ei", "topic_id": "10", "topic_group": "10. Time Series / Sales Data Aggregation / Table Design", "knowledge_point": "physical vs online yearly sales comparison", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(e)(i)", "question_summary": "重新组织数据并画 scatter plot + fitted model", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "i. What columns are required, how should the table be indexed and what\ndata types should be used?", "answer_notes": ""}, {"stable_id": "t10_2023_q3eii", "topic_id": "10", "topic_group": "10. Time Series / Sales Data Aggregation / Table Design", "knowledge_point": "future sales prediction", "year": "2023", "exam_time": "2 May 13:00-15:00", "question_number": "Q3(e)(ii)", "question_summary": "用 multiple linear regression 预测 December 2023 sales", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/DAwHPC-ExamPaper-2023.pdf", "source_page": "5", "source_image": "../../extracted/images/DAwHPC-ExamPaper-2023_page_05.png", "original_question_text": "ii. What method should be used to combine time-based data and how\nshould it be aggregated?\n[5 marks]\n(b) To handle the large amount of data, you need to make full use of a HPC\nmachine and use either Spark (using PySpark) or Dask.", "answer_notes": ""}, {"stable_id": "t11_2024_q3a", "topic_id": "11", "topic_group": "11. Neural Networks、FeedForward NN、Transformers", "knowledge_point": "neural network 基本概念", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q3(a)", "question_summary": "解释 NN、deep NN，并给两个 use cases", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "5", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_05.png", "original_question_text": "(a) Briefly describe what a neural network is. In your answer explain what is\nmeant by a deep neural network, and give two example use cases of a\nneural network.\n[5 marks]", "answer_notes": ""}, {"stable_id": "t11_2024_q3b", "topic_id": "11", "topic_group": "11. Neural Networks、FeedForward NN、Transformers", "knowledge_point": "FeedForward NN 结构图", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q3(b)", "question_summary": "画简单 FNN 并解释 layers 和 forward process", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "5", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_05.png", "original_question_text": "(b) Draw a simple FeedForward neural network. Briefly explain the layers and\nthe main steps of how it works.\n[9 marks]", "answer_notes": ""}, {"stable_id": "t11_2024_q3c", "topic_id": "11", "topic_group": "11. Neural Networks、FeedForward NN、Transformers", "knowledge_point": "neuron 工作原理", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q3(c)", "question_summary": "解释 weighted sum、bias、activation function、non-linearity", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "5", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_05.png", "original_question_text": "(c) Describe how an individual neuron works. In your answer, explain how a\nneuron achieves non-linear functionality.\n[4 marks]", "answer_notes": ""}, {"stable_id": "t11_2024_q3d", "topic_id": "11", "topic_group": "11. Neural Networks、FeedForward NN、Transformers", "knowledge_point": "NN limitations", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q3(d)", "question_summary": "说明三个限制", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "5", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_05.png", "original_question_text": "(d) Briefly describe three limitations of neural networks.\n[3 marks]", "answer_notes": ""}, {"stable_id": "t11_2024_q3e", "topic_id": "11", "topic_group": "11. Neural Networks、FeedForward NN、Transformers", "knowledge_point": "Transformer benefits", "year": "2024", "exam_time": "6 May 13:00-15:00", "question_number": "Q3(e)", "question_summary": "解释 Transformer architecture 的四个优点", "topic_priority": "high", "review_status": "new", "practice_count": "0", "last_practiced": "", "source_pdf": "../../paper/HPDA_Exam_Questions_2023_24.pdf", "source_page": "5", "source_image": "../../extracted/images/HPDA_Exam_Questions_2023_24_page_05.png", "original_question_text": "(e) Briefly explain four benefits of using the Transformer Architecture.\n[4 marks]", "answer_notes": ""}];
+    const TOPIC_NOTES = {"1": ["复习优先级：很高。三年都出现，几乎是必考核心。"], "2": ["复习重点：feature scaling 很容易和 k-means、k-NN 结合考。"], "3": ["复习重点：Bernoulli、Binomial、Poisson、Normal 的使用场景，以及 MLE 公式。"], "4": ["复习优先级：非常高。三年都考，而且常考完整计算。", "你需要熟练掌握：", "P(Y | X1, X2) ∝ P(Y) P(X1 | Y) P(X2 | Y)", "以及 unseen category 时的 Laplace smoothing / 收集更多数据 / 说明模型无法可靠判断。"], "5": ["复习重点：", "k-NN 是 supervised classification；k-means 是 unsupervised clustering。", "DBSCAN 要会数 epsilon-neighbourhood 里面有多少点。"], "6": ["复习重点：这块分数通常不大，但容易拿分，建议准备标准答案模板。"], "7": ["复习重点：logistic regression 要会写 sigmoid：", "hθ(x) = 1 / (1 + e^(-θᵀx))", "并说明输出是 probability，不适合直接用普通 linear regression 做二分类。"], "8": ["复习重点：confusion matrix、TPR、TNR、accuracy、precision、recall、ROC/AUC。"], "9": ["复习优先级：高。虽然 2024 没怎么考 HPC framework，但课程名里有 HPDA，不能忽略。"], "10": ["复习重点：resampling / groupby / aggregation / indexing / datetime parsing。"], "11": ["复习优先级：很高。2024 第三大题整题都是 NN/Transformer，说明近年可能偏向现代 ML。"]};
+    const STORAGE_KEY = "hpda-study-app-progress-v1";
+    const VISUAL_HINT_KEYWORDS = ["plot", "plots", "figure", "figures", "diagram", "table", "tables", "shown below", "show below", "below illustrate", "illustrates", "illustrate", "the following data sample", "example data", "scatterplot", "scatterplots", "graph", "graphs", "chart", "charts"];
+
+    const state = { progress: {}, session: [], currentIndex: 0 };
+
+    function setFeedback(message) {
+      document.getElementById("save-feedback").textContent = message;
+    }
+
+    function loadProgress() {
+      if (SERVER_MODE) {
+        state.progress = {};
+        return;
+      }
+      try {
+        state.progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch (_err) {
+        state.progress = {};
+      }
+    }
+
+    function saveProgress() {
+      if (!SERVER_MODE) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.progress));
+      }
+    }
+
+    function mergedQuestion(question) {
+      if (SERVER_MODE) return question;
+      const saved = state.progress[question.stable_id] || {};
+      return {
+        ...question,
+        review_status: saved.review_status || question.review_status || "new",
+        answer_notes: saved.answer_notes ?? question.answer_notes ?? "",
+        practice_count: saved.practice_count ?? question.practice_count ?? "0",
+        last_practiced: saved.last_practiced ?? question.last_practiced ?? ""
+      };
+    }
+
+    async function updateQuestion(question, patch) {
+      if (SERVER_MODE) {
+        const response = await fetch("/api/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ stable_id: question.stable_id, ...patch })
+        });
+        if (!response.ok) {
+          setFeedback("Could not save changes to questions_master.csv");
+          return;
+        }
+        const updated = await response.json();
+        const index = QUESTIONS.findIndex((item) => item.stable_id === question.stable_id);
+        if (index >= 0) {
+          QUESTIONS[index] = updated.question;
+          state.session = state.session.map((item) => item.stable_id === updated.question.stable_id ? updated.question : item);
+        }
+        setFeedback(`Saved to CSV at ${updated.question.last_practiced || "now"}`);
+        renderCurrentQuestion();
+        return;
+      }
+
+      const current = state.progress[question.stable_id] || {};
+      state.progress[question.stable_id] = { ...current, ...patch };
+      saveProgress();
+      setFeedback("Saved in browser local storage");
+      renderCurrentQuestion();
+    }
+
+    function uniqueValues(key) {
+      return [...new Set(QUESTIONS.map((item) => item[key]).filter(Boolean))];
+    }
+
+    function optionHtml(value, label) {
+      return `<option value="${value}">${label}</option>`;
+    }
+
+    function buildFilters() {
+      document.getElementById("mode-lede").textContent = SERVER_MODE
+        ? "This page is running through the local study server. Status and notes are saved straight back to questions_master.csv."
+        : "This page is running as a standalone local file. Progress is stored in your browser only.";
+      document.getElementById("local-actions").classList.toggle("hidden", SERVER_MODE);
+
+      const topicSelect = document.getElementById("topic-filter");
+      const yearSelect = document.getElementById("year-filter");
+      topicSelect.innerHTML = optionHtml("all", "All topics") +
+        uniqueValues("topic_group").map((topic) => optionHtml(topic, topic)).join("");
+      yearSelect.innerHTML = optionHtml("all", "All years") +
+        uniqueValues("year").sort().map((year) => optionHtml(year, year)).join("");
+    }
+
+    function filteredQuestions() {
+      const topic = document.getElementById("topic-filter").value;
+      const year = document.getElementById("year-filter").value;
+      const status = document.getElementById("status-filter").value;
+      const priority = document.getElementById("priority-filter").value;
+
+      return QUESTIONS.filter((question) => {
+        const merged = mergedQuestion(question);
+        if (topic !== "all" && question.topic_group !== topic) return false;
+        if (year !== "all" && question.year !== year) return false;
+        if (status !== "all" && merged.review_status !== status) return false;
+        if (priority !== "all" && question.topic_priority !== priority) return false;
+        return true;
+      });
+    }
+
+    function shuffleInPlace(items) {
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+    }
+
+    function buildSession(useRandomSingle = false) {
+      let questions = filteredQuestions();
+      if (!questions.length) {
+        state.session = [];
+        state.currentIndex = 0;
+        renderCurrentQuestion();
+        return;
+      }
+      questions = [...questions];
+      if (document.getElementById("shuffle-filter").checked || useRandomSingle) {
+        shuffleInPlace(questions);
+      }
+      const limitValue = Number(document.getElementById("question-limit").value || "0");
+      if (useRandomSingle) {
+        questions = questions.slice(0, 1);
+      } else if (limitValue > 0) {
+        questions = questions.slice(0, limitValue);
+      }
+      state.session = questions;
+      state.currentIndex = 0;
+      setFeedback("");
+      renderCurrentQuestion();
+    }
+
+    function currentQuestion() {
+      if (!state.session.length) return null;
+      return mergedQuestion(state.session[state.currentIndex]);
+    }
+
+    function renderStats() {
+      const mergedSession = state.session.map(mergedQuestion);
+      document.getElementById("stat-total").textContent = String(mergedSession.length);
+      document.getElementById("stat-review").textContent = String(mergedSession.filter((q) => q.review_status === "review").length);
+      document.getElementById("stat-done").textContent = String(mergedSession.filter((q) => q.review_status === "done").length);
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function noteList(topicId) {
+      const notes = TOPIC_NOTES[topicId] || [];
+      if (!notes.length) return "";
+      return `<div class="topic-notes">${notes.map((note) => `<div>${escapeHtml(note)}</div>`).join("")}</div>`;
+    }
+
+    function questionNeedsVisualReference(question) {
+      const text = [
+        question.knowledge_point || "",
+        question.question_summary || "",
+        question.original_question_text || ""
+      ].join(" ").toLowerCase();
+      return VISUAL_HINT_KEYWORDS.some((keyword) => text.includes(keyword));
+    }
+
+    function renderCurrentQuestion() {
+      renderStats();
+      const title = document.getElementById("session-title");
+      const subtitle = document.getElementById("session-subtitle");
+      const container = document.getElementById("question-container");
+      const showImage = document.getElementById("show-image-toggle").checked;
+      const question = currentQuestion();
+
+      if (!question) {
+        title.textContent = "No session loaded";
+        subtitle.textContent = "Pick filters on the left and start a session.";
+        container.className = "empty";
+        container.innerHTML = "No question loaded yet.";
+        return;
+      }
+
+      title.textContent = question.topic_group;
+      subtitle.textContent = `Question ${state.currentIndex + 1} of ${state.session.length}`;
+      container.className = "";
+
+      const imageHtml = showImage && question.source_image
+        ? `<div class="image-wrap">
+            <img src="${question.source_image}" alt="Question source image">
+            <div class="meta">
+              <div>Source image: <a href="${question.source_image}" target="_blank" rel="noreferrer">${question.source_image}</a></div>
+              <div>Source PDF: <a href="${question.source_pdf}" target="_blank" rel="noreferrer">${question.source_pdf}</a> (page ${question.source_page || "?"})</div>
+            </div>
+          </div>`
+        : "";
+
+      const visualWarningHtml = questionNeedsVisualReference(question)
+        ? `<div class="visual-warning">
+            This question depends on figures, tables, or page layout. Use the source image as the primary reference, and treat extracted text as a helper view.
+          </div>`
+        : "";
+
+      container.innerHTML = `
+        <div class="buttons" style="margin-bottom: 14px;">
+          <span class="pill priority-${question.topic_priority}">Priority: ${question.topic_priority}</span>
+          <span class="pill status-${question.review_status || "new"}">Status: ${question.review_status || "new"}</span>
+          <span class="pill status-new">Year: ${question.year}</span>
+          <span class="pill status-new">Question: ${question.question_number}</span>
+        </div>
+        ${noteList(question.topic_id)}
+        <h3>${escapeHtml(question.knowledge_point)}</h3>
+        <div class="summary-box">${escapeHtml(question.question_summary)}</div>
+        <div style="height: 16px;"></div>
+        ${visualWarningHtml}
+        ${imageHtml}
+        <div style="height: 18px;"></div>
+        <h3>Original Question</h3>
+        <div class="question-text">${escapeHtml(question.original_question_text || "No original question text available.")}</div>
+        <div style="height: 18px;"></div>
+        <div class="buttons">
+          <button data-status="new">Mark New</button>
+          <button data-status="review" class="review">Mark Review</button>
+          <button data-status="done" class="done">Mark Done</button>
+        </div>
+        <div style="height: 18px;"></div>
+        <h3>Notes</h3>
+        <textarea id="notes-input" placeholder="Write answer notes or reminders here...">${escapeHtml(question.answer_notes || "")}</textarea>
+        <div class="buttons" style="margin-top: 12px;">
+          <button id="save-notes" class="primary">Save Notes</button>
+        </div>
+        <div class="meta" style="margin-top: 12px;">
+          <div>Practice count: ${question.practice_count || "0"}</div>
+          <div>Last practiced: ${question.last_practiced || "not yet"}</div>
+          <div>Stable id: ${question.stable_id}</div>
+        </div>
+      `;
+
+      for (const button of container.querySelectorAll("[data-status]")) {
+        button.addEventListener("click", async () => {
+          const now = new Date().toISOString().slice(0, 16).replace("T", " ");
+          const oldCount = Number(question.practice_count || "0");
+          await updateQuestion(question, {
+            review_status: button.dataset.status,
+            practice_count: String(oldCount + 1),
+            last_practiced: now
+          });
+        });
+      }
+
+      document.getElementById("save-notes").addEventListener("click", async () => {
+        const notes = document.getElementById("notes-input").value;
+        await updateQuestion(question, { answer_notes: notes });
+      });
+    }
+
+    function moveQuestion(offset) {
+      if (!state.session.length) return;
+      state.currentIndex = (state.currentIndex + offset + state.session.length) % state.session.length;
+      setFeedback("");
+      renderCurrentQuestion();
+    }
+
+    function exportProgress() {
+      const blob = new Blob([JSON.stringify(state.progress, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "hpda-browser-progress.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importProgress(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          state.progress = JSON.parse(String(reader.result));
+          saveProgress();
+          setFeedback("Imported browser progress");
+          renderCurrentQuestion();
+        } catch (_err) {
+          alert("Could not import progress JSON.");
+        }
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    document.getElementById("start-session").addEventListener("click", () => buildSession(false));
+    document.getElementById("random-question").addEventListener("click", () => buildSession(true));
+    document.getElementById("prev-question").addEventListener("click", () => moveQuestion(-1));
+    document.getElementById("next-question").addEventListener("click", () => moveQuestion(1));
+    document.getElementById("show-image-toggle").addEventListener("change", renderCurrentQuestion);
+    document.getElementById("export-progress").addEventListener("click", exportProgress);
+    document.getElementById("import-progress").addEventListener("click", () => document.getElementById("import-file").click());
+    document.getElementById("import-file").addEventListener("change", (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (file) importProgress(file);
+    });
+    document.getElementById("reset-progress").addEventListener("click", () => {
+      if (!confirm("Reset browser-only progress for this study page?")) return;
+      state.progress = {};
+      saveProgress();
+      setFeedback("Reset browser progress");
+      renderCurrentQuestion();
+    });
+
+    loadProgress();
+    buildFilters();
+    renderCurrentQuestion();
+  </script>
+</body>
+</html>

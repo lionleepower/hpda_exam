@@ -1,0 +1,26 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+[11 marks]
+(d) Your electricity provider recently launched a new service on their website
+and the company now wishes to study their customers’ response and whether
+this launch was successful. Let Y be the random variable indicating whether
+a customer responded positively or not, where Y = 1 indicates a positive
+response and Y = 0 otherwise.
+A sample of n = 2000 customers was
+randomly drawn and response status was recorded resulting to the sample:
+y = 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, . . . , 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1.
+i. What is an appropriate distribution for modelling Y and why? Provide
+the parameter(s) of the distribution and what they illustarte.
+ii. You are given additional information for each customer, i.e., X1 : con-
+tract type, X2 : length of tenure and X3 : average monthly consumption.
+With this additional information you are asked to model the probability
+of a customer responding positively to the oﬀer and you decide to use
+logistic regression.
+• Fully deﬁne the hypothesis model and explain how you’d use your
+trained model in order to predict if a customer is going to respond
+positively before they are presented with the oﬀer.
+Provide any
+equation that you may have to use.
+iii. Would linear regression be an appropriate model instead of logistic re-
+gression for this situation? Why?
+[9 marks]
+Page 3 of 6

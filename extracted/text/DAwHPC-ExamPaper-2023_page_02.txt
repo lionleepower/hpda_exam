@@ -1,0 +1,47 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+1. As part of a national reporting scheme, every hospital in Scotland has been told
+to provide information on patient admissions since 2010 and on an ongoing basis
+into the future. You work at the reporting centre and have been tasked with
+cleaning the data so it can be loaded into a database for diﬀerent analysis tasks.
+Each hospital provides one CSV ﬁle per month; however, you notice that some
+ﬁles are missing. You are also told that some data have been entered by hand.
+Each ﬁle is supposed to contain the following variables:
+• unique patient id e.g., ”03-05-92-0124”,
+• hospital location code e.g., ”EDI004”,
+• admission date, discharge date, and length of stay,
+• admission type, which should be one of “Emergency”, “Elective”, or “Trans-
+fer”,
+• department code e.g.,”RAD”, ”ORTHO”, ”ENT”.
+(a) The dataset is an example of Operational data which has not been gathered
+for a speciﬁc analysis. Explain why it is vital to clean this data before it is
+made available for analysis, and state two resources you could use to assist
+with the cleaning.
+[3 marks]
+(b) Name the technique which could be applied to convert a categorical variable
+for use by numerical models, and show how it would be applied to the
+following data sample.
+[2 marks]
+Row
+admission type
+1
+Emergency
+2
+Emergency
+3
+Transfer
+(c) Create a plan for cleaning the dataset above, providing speciﬁc examples of
+tasks at each step in the Data Cleaning workﬂow. You should assume that
+HPC is not required for this task.
+[12 marks]
+(d) Brieﬂy describe how you could verify the following statement using the
+cleaned data: “For each hospital, the average length of stay per year should
+be much higher for transfers than any other admission type”.
+[2 marks]
+(e) A researcher wishes to train a Random Forest classiﬁer using the cleaned
+data to predict future admission rates. Explain what the terms “bootstrap
+aggregation” and “out of bag (OOB) error” mean in this context.
+[2 marks]
+(f) Describe an experiment you could perform to determine the optimal number
+of trees to include in a Random Forest classiﬁer.
+[4 marks]
+Page 1 of 6

@@ -1,0 +1,77 @@
+2. DICOM is the international standard data format produced by medical imaging
+devices. Each DICOM ﬁle can contain both the image data and a collection of
+metadata. The metadata contain information about the patient who was imaged
+and the properties of the image which was captured.
+(a) When a patient undergoes a CT scan, many image ‘slices’ are captured. The
+DICOM ﬁles produced by the scanner will contain metadata for the whole
+scan, and also for each individual image slice.
+Metadata captured from 3 diﬀerent imaging devices are displayed in the
+tables below; the ﬁrst containing scan data and the second containing image
+data.
+Scan ID
+Scan Date
+Scan Type
+Image Count
+Date Requested
+1a
+“20220314”
+CT
+“2”
+“2022-2-24”
+2a
+“20220310”
+CT
+“1”
+“2022-3-12”
+3a
+“20220412”
+MRI
+“3”
+“2022-4-10”
+Image ID
+Scan ID
+Scan Description
+Image Date
+1a
+1a
+Head CT
+“20220314”
+2a
+1a
+Head CT
+“20220314”
+3a
+2a
+Chest CT
+“2022-03-10”
+4a
+3a
+chest mri
+“20220412”
+5a
+3a
+chest mri
+“20220412”
+i. DICOM can be viewed as a raw data format. Provide two examples
+of raw data from the tables above that are not technically correct. For
+each, identify a cleaning step which could be applied to that data.
+[4 marks]
+ii. What types of data consistency are violated, and how?
+[4 marks]
+(b)
+The remainder of this question does not relate to the metadata tables in
+part a).
+A researcher wishes to extract and analyse metadata from a dataset of over
+1 million raw DICOM images collected from hospitals across Scotland. They
+are initially interested in analysing the frequency of two types of MRI scan,
+which they believe can be found in the Scan Description metadata ﬁelds of
+each ﬁle. Describe the steps you would take to tackle this problem, stating
+how parallelism can be utilised in each step.
+[8 marks]
+(c) After initial analysis, the researcher has found Scan Description to be an
+unreliable indicator of the scan type. Three new metadata ﬁelds have been
+chosen to build a Decision Tree classiﬁer: Echo Time (TE), Repetition Time
+(TR), and High Contrast (HC). TE and TR are numeric variables, and HC
+is a boolean variable. The two possible scan types are T1 and T2. Using a
+labelled subset of the data, the following tree has been built.
+Page 4 of 7

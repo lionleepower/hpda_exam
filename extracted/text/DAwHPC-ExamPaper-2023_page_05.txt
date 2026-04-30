@@ -1,0 +1,112 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+3. You are tasked with analysing sales data for a musical instrument retailer, Strings-
+n-Keys. The retailer has 5 years of sales data, from 10 physical stores and an
+online store, comprising 600 ﬁles for monthly in-person sales, and 260 ﬁles for
+weekly online sales. Example data are shown below.
+In-person
+Sales,
+showing
+line
+1
+from
+4
+CSV
+ﬁles.
+date
+store
+department
+type
+maker
+model
+price
+01-01-18
+Edinburgh
+Guitars
+Guitar
+Fender
+Strat
+999.00
+01-01-18
+Glasgow
+Drums
+Drum kit
+Gretsch
+BC50
+1849.00
+01-02-18
+Dundee
+Guitars
+Guitar
+Gibson
+LP
+1399.00
+01-02-18
+Bristol
+Keys
+Keyboard
+Nord
+X300
+2199.00
+Online
+Sales,
+showing
+3
+lines
+from
+a
+single
+CSV
+ﬁle.
+datetime
+department
+type
+maker
+model
+price
+shipping
+20-01-2019
+Keys
+Keyboard
+Casio
+88Pro
+1299.00
+30.00
+12:36:21
+20-01-2019
+Drums
+Drum stool
+Gnu
+Red15
+149.00
+30.00
+12:42:19
+20-01-2019
+Recording
+Interface
+UA
+Volt1
+114.99
+10.00
+13:01:09
+The client would like to see monthly sales and yearly sales for each of 10 depart-
+ments across all stores and to predict future sales. To complete this work, you
+have at your disposal a small HPC machine featuring 8 compute nodes, each with
+12 CPU cores and 96 GB RAM, that uses the SLURM job scheduler.
+(a) You begin by designing a single table combining in-person and online sales,
+assuming all stores have the same departments.
+i. What columns are required, how should the table be indexed and what
+data types should be used?
+ii. What method should be used to combine time-based data and how
+should it be aggregated?
+[5 marks]
+(b) To handle the large amount of data, you need to make full use of a HPC
+machine and use either Spark (using PySpark) or Dask.
+i. How do Spark and Dask setups diﬀer in terms of the way the SLURM
+job scheduler is used and how are computation tasks executed?
+ii. To load the data, Spark and Dask can read in lists of paths to CSV ﬁles.
+Describe what spark.read.csv() and dask.dataframe.read csv()
+do and what they produce.
+[6 marks]
+(c) The Spark Pipeline diagram below represents a process to model the
+String-n-Keys data.
+Page 4 of 6

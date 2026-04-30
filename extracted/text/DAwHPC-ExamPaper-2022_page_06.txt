@@ -1,0 +1,12 @@
+i. What scan type will an image with (TE = 13ms, TR = 550ms, HC =
+N) be classiﬁed as having?
+[1 mark]
+ii. Taking T1 to be the “positive” class, create a confusion matrix and cal-
+culate the True Positive Rate and True Negative Rate for this classiﬁer.
+[3 marks]
+iii. Justify why HC has been used twice in the tree, despite being a boolean
+variable.
+[1 mark]
+iv. Describe how the performance of two binary classiﬁers can be compared.
+[4 marks]
+Page 5 of 7

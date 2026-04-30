@@ -1,0 +1,67 @@
+1.
+(a) In the three scenarios given below consider whether ETL or ELT would be
+most appropriate and justify your answer:
+i. A team within your company wants to detect anomalous insurance
+claims.
+ii. An organisation wishes to keep a long-term data archive for analysis.
+iii. A secure data source houses highly sensitive data, including individuals’
+personal information
+[3 marks]
+(b) Consider an online merchant only providing two products: lamps and mo-
+torbikes. The plots below illustrate the purchases of eight diﬀerent shoppers
+where each shopper is depicted by a speciﬁc colour and symbol. Plot (a)
+illustrates the number of lamps and motorbikes purchased by each shopper.
+Plot (b) illustrates the same information but after scaling each variable by
+its standard deviation. Lastly, plot (c) shows the amount of money spent
+by each shopper on lamps and motorbikes.
+0
+2
+4
+6
+8
+10
+12
+a
+Units Purchased
+Lamps
+Motorbikes
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+b
+Units Purchased (scaled)
+Lamps
+Motorbikes
+0
+500
+1000
+1500
+2000
+2500
+c
+Money Spent
+Lamps
+Motorbikes
+Consider you’re implementing k−means clustering, with k = 2, in each of
+the three cases above. Brieﬂy, explain in general, how the scale/units of
+measurement of the features could aﬀect k-means clustering. Speciﬁcally
+for the above example, describe in words the results you expect to get in
+each case and explain why.
+[8 marks]
+(c) A materials science research group requires your help to analyse some data
+from simulations of a new material. A small sample of their data is shown
+below and consist of the following three variables: “Type”, indicating the
+category of an observation; “Distance” which is measured in their material
+and “Shift”, a further property of the material.
+i. The chemists in the group are interested in ﬁnding a way to decide
+on the “Type” of a new observation using the above data. How can
+you do that?
+Mention what approach/method you’d choose, which
+variable/variables would be used and how.
+[2 marks]
+Page 1 of 7

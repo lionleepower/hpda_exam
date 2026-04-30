@@ -1,0 +1,27 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+i. Which of these stages are Transformers and which are Estimators? If
+a stage is a Transformer, state, with reasoning, whether it performs a
+narrow or a wide transformation.
+ii. Once the Spark Pipeline has been processed, Estimator stages become
+Transformer stages in a now trained PipelineModel object. What can
+be done with the PipelineModel and what additional stage type can
+be added?
+[4 marks]
+(d) In the example below, the dask.delayed() function is used as a decorator
+to simple arithmetic functions to build a Dask task graph, where ”result”
+is the ﬁnal task graph.
+i. Draw the task graph that is output by line 21, “result.visualize()”,
+highlighting which tasks run in parallel and which run in serial. Use
+circles to represent operations and rectangles to represent values.
+ii. What is the result of line 22, ”result.compute()”?
+iii. In terms of the String-n-Keys data, a larger and more complex task
+graph would be generated. What is the initial number of partitions used
+and why? What would be the most eﬃcient way to repartition the data,
+and why would this improve eﬃciency?
+[6 marks]
+(e) Assume you have now modelled the String-n-Keys data with a multiple
+linear regression model, where stores and departments are represented as
+independent variables.
+i. You want to compare yearly sales of all physical sales against online
+sales. For such a comparison, what operations would be required to re-
+Page 5 of 6

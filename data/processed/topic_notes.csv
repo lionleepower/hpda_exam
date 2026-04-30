@@ -1,0 +1,19 @@
+topic_id,topic_group,note_order,topic_priority,note_text
+1,1. 数据清洗、数据整理、ETL/ELT、数据一致性,1,high,复习优先级：很高。三年都出现，几乎是必考核心。
+2,2. 数据编码、特征缩放、数据探索,1,high,复习重点：feature scaling 很容易和 k-means、k-NN 结合考。
+3,3. 概率分布、参数估计、MLE,1,high,复习重点：Bernoulli、Binomial、Poisson、Normal 的使用场景，以及 MLE 公式。
+4,4. Bayes、Naive Bayes、Bayes’ Law,1,high,复习优先级：非常高。三年都考，而且常考完整计算。
+4,4. Bayes、Naive Bayes、Bayes’ Law,2,high,你需要熟练掌握：
+4,4. Bayes、Naive Bayes、Bayes’ Law,3,high,"P(Y | X1, X2) ∝ P(Y) P(X1 | Y) P(X2 | Y)"
+4,4. Bayes、Naive Bayes、Bayes’ Law,4,high,以及 unseen category 时的 Laplace smoothing / 收集更多数据 / 说明模型无法可靠判断。
+5,5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类,1,high,复习重点：
+5,5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类,2,high,k-NN 是 supervised classification；k-means 是 unsupervised clustering。
+5,5. k-NN、k-means、DBSCAN、Gaussian Mixtures 聚类与分类,3,high,DBSCAN 要会数 epsilon-neighbourhood 里面有多少点。
+6,6. Random Forest、Bagging、Bootstrap、OOB Error,1,high,复习重点：这块分数通常不大，但容易拿分，建议准备标准答案模板。
+7,7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error,1,high,复习重点：logistic regression 要会写 sigmoid：
+7,7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error,2,high,hθ(x) = 1 / (1 + e^(-θᵀx))
+7,7. Logistic Regression、Linear Regression、Gradient Descent、Generalisation Error,3,high,并说明输出是 probability，不适合直接用普通 linear regression 做二分类。
+8,8. Decision Tree、Confusion Matrix、Classifier Evaluation,1,high,复习重点：confusion matrix、TPR、TNR、accuracy、precision、recall、ROC/AUC。
+9,9. HPC Data Analytics：Spark、Dask、SLURM、Parallel Data Processing,1,high,复习优先级：高。虽然 2024 没怎么考 HPC framework，但课程名里有 HPDA，不能忽略。
+10,10. Time Series / Sales Data Aggregation / Table Design,1,high,复习重点：resampling / groupby / aggregation / indexing / datetime parsing。
+11,11. Neural Networks、FeedForward NN、Transformers,1,high,复习优先级：很高。2024 第三大题整题都是 NN/Transformer，说明近年可能偏向现代 ML。

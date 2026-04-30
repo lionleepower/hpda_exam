@@ -1,0 +1,9 @@
+boundaries. In doing so make sure to also discuss the two plausible
+extremes for the value of K?
+[3 marks]
+ii. If K = 110 is used to classify new instances of data containing equal
+numbers of A, B and C instances, it has an overall accuracy of 67%.
+With reference to the above plot, explain why this is the case and your
+working.
+[2 marks]
+Page 3 of 7

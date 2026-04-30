@@ -1,0 +1,67 @@
+ii. What plots would you need to look at as part of your data exploration
+and why? Keep in mind your end goal and how each variable is helping
+you towards this.
+[4 marks]
+iii. The chemists looked into the performance of the model on the training
+data and found that it wasn’t performing so well. However, they re-
+alised, that the performance improved after removing some data points.
+Discuss this approach. Explain how this could aﬀect the performance
+of the new model.
+[3 marks]
+(d) A K-NN classiﬁer has been trained to a dataset with two features, X1, X2,
+and one target variable with three classes. The plots below show scatterplots
+of the features for the training data. The true class of each data point, A, B
+and C, is denoted by triangle, circle and square markers respectively. The
+dashed and straight lines show the classiﬁcation boundaries of the classiﬁer
+when trained with K = 1, K = 30 and K = 110. These boundaries indicate
+how new data points will be classiﬁed as indicated by the lower-case labels
+a, b and c. For example, data points falling within the red area a will be
+classiﬁed as a. Consider that there are 50 examples of each label in the
+training data.
+4
+5
+6
+7
+8
+X2
+1
+2
+3
+4
+5
+6
+X1
+a
+b
+c
+KNN (K=1)
+4
+5
+6
+7
+8
+X2
+a
+b
+c
+KNN (K=30)
+4
+5
+6
+7
+8
+X2
+a
+c
+KNN (K=110)
+A
+B
+C
+a/b Boundary
+b/c Boundary
+Predict a
+Predict b
+Predict c
+i. Considering how K-NN works, and with reference to the above plots
+if helpful, discuss how K aﬀects the classiﬁcation and the classiﬁcation
+Page 2 of 7

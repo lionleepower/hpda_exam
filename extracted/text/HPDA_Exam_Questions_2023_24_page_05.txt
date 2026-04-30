@@ -1,0 +1,16 @@
+3.
+(a) Briefly describe what a neural network is. In your answer explain what is
+meant by a deep neural network, and give two example use cases of a
+neural network.
+[5 marks]
+(b) Draw a simple FeedForward neural network. Briefly explain the layers and
+the main steps of how it works.
+[9 marks]
+(c) Describe how an individual neuron works. In your answer, explain how a
+neuron achieves non-linear functionality.
+[4 marks]
+(d) Briefly describe three limitations of neural networks.
+[3 marks]
+(e) Briefly explain four benefits of using the Transformer Architecture.
+[4 marks]
+Page 4 of 4

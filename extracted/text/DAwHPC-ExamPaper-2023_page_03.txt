@@ -1,0 +1,33 @@
+FOR EXTERNAL EXAMINER (date of this version: 12/4/2023)
+2.
+(a) The plots given below show the results of diﬀerent clustering methods used
+on 3 diﬀerent datasets. Looking at these, which of k-means, Gaussian Mix-
+tures and DBSCAN is most likely to have produced each clustering output?
+Justify your answer based on the properties and underlying assumptions of
+each method.
+[3 marks]
+(b) Let x be a datapoint with x1, ..., x9 denoting its closest neighbours, with
+their Euclidean distances from x listed below. Explain how DBSCAN would
+classify x, i.e., core point, density reachable or outlier, if parametrised with
+ϵ = 0.12 and minPts = 3, and brieﬂy justify why.
+D(x, x1)
+=
+0.4, D(x, x2) = 0.08, D(x, x3) = 0.15, D(x, x4) = 0.2,
+D(x, x5)
+=
+0.3, D(x, x6) = 0.22, D(x, x7) = 0.06, D(x, x8) = 0.11, D(x, x9) = 0.1
+[2 marks]
+(c) Your local events organiser wants to determine the success of its events, and
+whether a future event will sell out. For this, you’re given a CSV ﬁle with
+three variables: Y : showing if the event was sold out or not; X1 : the type
+of the event and X2 : whether it took place during the weekend or not.
+After processing the data you bring them together in the below format:
+i. They plan to organise a dancing event on the last Thursday of May.
+Use a Naive Bayes classiﬁer to answer whether it is going to be sold out
+or not. Show all your working using appropriate notation.
+ii. They consider organising a poetry writing event during June’s ﬁrst
+weekend and they want to know if it’s going to be sold out. Can you
+answer this using the provided data and/or the trained classiﬁer? If
+yes, show and explain how but without making the actual calculation.
+If not, explain why and suggest how you could approach it.
+Page 2 of 6

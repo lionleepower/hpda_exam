@@ -1,0 +1,66 @@
+track URI
+timestamp
+ms played
+shuffle
+skipped
+song name
+artist name
+album name
+(string)
+(string)
+(string)
+(bool)
+(bool)
+(string)
+(string)
+(string)
+5Wj1r
+2022-12-31T16:49:19Z
+322548
+NULL
+TRUE
+Bennie And The Jets
+Elton John
+Goodbye Yellow Brick Road
+3U5JV
+2022-12-31T16:40:13Z
+259333
+NULL
+FALSE
+Unwritten
+Natasha Bedingfield
+Unwritten
+0Gic2
+2022-12-31T16:35:14Z
+158692
+NULL
+FALSE
+I Don’t Recognise You
+NewDad
+Waves
+5xo8R
+2022-12-31T16:32:31Z
+229760
+NULL
+FALSE
+Motion Sickness
+Phoebe Bridgers
+Stranger in the Alps
+10yY7
+2022-12-31T16:28:40Z
+324240
+NULL
+TRUE
+Praise You
+Fatboy Slim
+You’ve Come a Long Way Baby
+5xo8R
+2022-12-31T16:24:15Z
+219125
+NULL
+TRUE
+Motion Sickness
+Phoebe Bridgers
+Stranger in the Alps
+Table 1: Dataset of songs listened to in the last 12 months.
+Page 2 of 4
