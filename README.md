@@ -5,12 +5,13 @@
 
 ### 1. 进入目录并激活python环境
 
+重点是激活你自己环境里面的python, 下面给出示例：
 ```bash
-cd ~/edinburgh/hpda/finalexam
+cd ~hpda/finalexam
 conda activate hpda_exam
 ```
 
-### 2. 第一次使用时，先生成题库和网页数据
+### 2. 第一次使用时，先生成题库和网页数据（对于hpda这门课，数据已经生成，所以可以略过这一步）
 
 ```bash
 python rebuild_question_bank.py
