@@ -154,7 +154,25 @@ cd ~/edinburgh/hpda/finalexam
 conda activate hpda_exam
 ```
 
-### 2. Put your PDF papers into `paper/`
+### 2. If you just want to use the included HPDA question bank
+
+You can skip the rebuild step and start directly:
+
+```bash
+python serve_web_app.py
+```
+
+or:
+
+```bash
+python quiz_cli.py --open-image
+```
+
+This works because the repository already includes the generated HPDA question-bank outputs.
+
+### 3. If you want to use this toolkit for another course
+
+Put your own PDF papers into `paper/`.
 
 Example:
 
@@ -165,7 +183,9 @@ paper/
 └── ExamPaper-2024.pdf
 ```
 
-### 3. Build the question bank
+Then prepare your own `questionSum.txt` in the expected summary format.
+
+### 4. Build the question bank
 
 ```bash
 python rebuild_question_bank.py
@@ -180,7 +200,7 @@ python auto_link_source_images.py
 python populate_original_question_text.py
 ```
 
-### 4. Start revising
+### 5. Start revising
 
 Terminal mode:
 
@@ -235,6 +255,8 @@ or:
 ```bash
 python quiz_cli.py --open-image
 ```
+
+For the current HPDA repository, this is the normal usage path because the generated question-bank data is already included.
 
 ## Script Guide
 
@@ -383,3 +405,16 @@ If this repository is public, a safer approach is:
 - do **not** commit exam PDFs unless you are certain redistribution is allowed
 
 For public sharing, users can create their own `paper/` directory locally and place their legally obtained papers there.
+
+## Chinese Documentation
+
+For a Chinese usage guide, including:
+
+- how to use the included HPDA dataset directly
+- how to reuse the toolkit for another course
+- what to put into `paper/`
+- how to prepare `questionSum.txt`
+
+see:
+
+- [README_zh.md](README_zh.md)
