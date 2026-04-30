@@ -137,7 +137,7 @@ paper/
 
 ```bash
 cd ~/edinburgh/hpda/finalexam
-conda activate hpda_exam
+conda activate hpda_exam #这里去激活你自己的python环境
 python rebuild_question_bank.py
 python serve_web_app.py
 ```
