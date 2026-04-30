@@ -21,7 +21,7 @@ cd ~/edinburgh/hpda/finalexam
 conda activate hpda_exam
 ```
 
-### 2. 第一次使用时，先生成题库
+### 2. 第一次使用时，先生成题库(对于hpda这门课，这一步可以跳过)
 
 ```bash
 python rebuild_question_bank.py
