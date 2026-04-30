@@ -12,7 +12,9 @@ This project supports:
 - browser-based revision
 - CSV-backed progress and notes
 
-## 简单运行方法
+## 对于hpda这门课的简单运行方法
+
+如果想要使用其他的课程，中文版请去阅读README_zh.md，英文版直接向下翻阅即可
 
 ### 1. 进入目录并激活一个已经装好依赖的 Python 环境
 
@@ -29,22 +31,8 @@ conda activate hpda_exam
 `conda` 只是一个示例。
 如果你用的是别的环境管理方式，也可以，只要当前环境里已经安装了本项目需要的依赖。
 
-### 2. 第一次使用时，先生成题库(对于hpda这门课，这一步可以跳过)
 
-```bash
-python rebuild_question_bank.py
-```
-
-这个脚本会自动依次运行：
-
-```bash
-python extract_papers.py
-python parse_question_summary.py
-python auto_link_source_images.py
-python populate_original_question_text.py
-```
-
-### 3. 日常最推荐的刷题方式
+### 2. 日常最推荐的刷题方式
 
 ```bash
 python serve_web_app.py
@@ -60,7 +48,7 @@ http://127.0.0.1:8000
 
 如果 `8000` 端口被占用，脚本会自动切换到附近可用端口，并把最终地址打印出来。
 
-### 4. 如果你想用终端刷题
+### 3. 如果你想用终端刷题
 
 ```bash
 python quiz_cli.py --open-image
