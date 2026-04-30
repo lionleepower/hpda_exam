@@ -14,7 +14,7 @@ This project supports:
 
 ## 对于hpda这门课的简单运行方法
 
-如果想要使用其他的课程，中文版请去阅读README_zh.md，英文版直接向下翻阅即可
+如果想要使用其他的课程，中文版请去阅读[README_zh.md](README_zh.md)，英文版直接向下翻阅即可
 
 ### 1. 进入目录并激活一个已经装好依赖的 Python 环境
 
