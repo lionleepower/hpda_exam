@@ -14,12 +14,20 @@ This project supports:
 
 ## 简单运行方法
 
-### 1. 进入目录并激活环境
+### 1. 进入目录并激活一个已经装好依赖的 Python 环境
 
 ```bash
 cd ~/edinburgh/hpda/finalexam
 conda activate hpda_exam
 ```
+
+这里的重点不是“必须使用 conda”，而是：
+
+- 先进入项目目录
+- 再激活一个已经安装好本项目依赖的 Python 环境
+
+`conda` 只是一个示例。
+如果你用的是别的环境管理方式，也可以，只要当前环境里已经安装了本项目需要的依赖。
 
 ### 2. 第一次使用时，先生成题库(对于hpda这门课，这一步可以跳过)
 
@@ -128,11 +136,14 @@ finalexam/
 
 ## Setup
 
-Recommended environment:
+Example environment:
 
 ```bash
 conda activate hpda_exam
 ```
+
+The important part is not Conda specifically.
+You just need to activate any Python environment that already has this project's dependencies installed.
 
 Install dependencies:
 
@@ -147,12 +158,15 @@ Dependencies are intentionally small and mainly cover PDF extraction:
 
 ## Quick Start
 
-### 1. Enter the project directory
+### 1. Enter the project directory and activate a Python environment
 
 ```bash
 cd ~/edinburgh/hpda/finalexam
 conda activate hpda_exam
 ```
+
+Conda is only an example here.
+You can use any Python environment manager, as long as the active environment already has this project's dependencies installed.
 
 ### 2. If you just want to use the included HPDA question bank
 
